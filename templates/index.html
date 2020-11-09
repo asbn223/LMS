@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        {% if user.is_superuser %}
+        <li><a href="{% url 'add_book' %}">Add Book</a></li>
+        {% endif %} 
+        <li><a href="http://127.0.0.1:8000/accounts/logout/">Logout</a></li>
+
+    </ul>
+</nav>
+    <h1> Welcome {{user}} </h1>
+    <table>
+        <tr>
+            <th>Book Name</th>
+            <th>Author</th>
+            <th>Published Date</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    {% if books %}
+        {% for book in books %}
+            <tr>
+                <td>{{ book.book_name }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publish_date }}</td>
+                <td><a href="{% url 'edit_book' book.id%}" value={{ book.id }}>Update</a>||
+                    <a href="{% url 'delete_book' book.id %}">Delete</a></td>
+            </tr>
+            <br>
+        {% endfor %}
+
+    {% endif %}
+</body>
+</html>
