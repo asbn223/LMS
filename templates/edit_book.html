@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form method="POST">
-        {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group row">
-                    <label for="id_{{ field.name }}" >{{ field.label }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <button type="submit" class="btn btn-primary" name="button">Update Device</button>
-        </form>
-</body>
-</html>
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="box">
+            <div class="left"></div>
+            <div class="right">
+                <h2>Update Book</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class="btn" type="submit" value="Update Book">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

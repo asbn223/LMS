@@ -1,0 +1,22 @@
+<nav class="navigation">
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+    </label>
+    <label class="logo">LMS</label>
+    <ul class="menu">
+        <li class="menu-items"><a href="{% url 'home' %}">Home</a></li>
+        <li class="menu-items"><a href="{% url 'add_book' %}">Add Book</a></li>
+
+        {% if user.is_authenticated %}
+            <li class="menu-items"><a href="http://127.0.0.1:8000/accounts/logout/">Log Out</a></li>
+
+        {% else %}
+            <li class="menu-items"><a href="{% url 'login' %}">Login</a></li>
+            <li class="menu-items"><a href="{% url 'sign-up' %}">Register</a></li>
+
+        {% endif %}
+
+    </ul>
+</nav>
+
