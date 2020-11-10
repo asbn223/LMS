@@ -3,7 +3,7 @@
     <table>
         {% if books %}
             {% for book in books %}
-                {% if book.id|divisibleby:3 %}
+                {% if forloop.counter0|divisibleby:3 %}
                     <tr><br></tr>
                 {% endif %}
                 <td>
