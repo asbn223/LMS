@@ -17,7 +17,7 @@ class Books(models.Model):
     author = models.CharField(max_length=50)
     publish_date = models.DateField()
     desc = models.TextField(null=True)
-    img = models.ImageField(upload_to=recipe_image_file_path)
+    img = models.ImageField(upload_to=recipe_image_file_path, null=True)
 
     def __str__(self):
         return self.book_name

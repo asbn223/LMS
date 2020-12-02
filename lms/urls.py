@@ -27,6 +27,7 @@ urlpatterns = [
     path('add_book/', add_book, name='add_book'),
     path('edit_book/<pk>', edit_book, name='edit_book'),
     path('delete_book/<pk>', delete_book, name='delete_book'),
+    path('api/', include('books.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
