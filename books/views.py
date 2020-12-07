@@ -1,10 +1,19 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, \
-    RetrieveUpdateDestroyAPIView, GenericAPIView
+    RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.viewsets import ViewSet, ModelViewSet
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 from core.models import Books
-from .serializers import BookSerializer
+from .serializers import BookSerializer, AuthTokenSerializer
+
+
+class CreateTokenView(ObtainAuthToken):
+    """Create new auth token for the user"""
+    serializer_class = AuthTokenSerializer
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 
 class BookPagination(LimitOffsetPagination):
@@ -13,12 +22,16 @@ class BookPagination(LimitOffsetPagination):
 
 
 class BookList(ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     queryset = Books.objects.all()
     serializer_class = BookSerializer
     pagination_class = BookPagination
 
 
 class BookCreate(CreateAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
@@ -26,6 +39,8 @@ class BookCreate(CreateAPIView):
 
 
 class BookRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     queryset = Books.objects.all()
     lookup_field = 'id'
     serializer_class = BookSerializer
@@ -52,7 +67,8 @@ class BookRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         return response
 
 
-class BookViewSet(ModelViewSet):
-    queryset = Books.objects.all()
-    serializer_class = BookSerializer
+# class BookViewSet(ModelViewSet):
+#     queryset = Books.objects.all()
+#     serializer_class = BookSerializer
+#
 
