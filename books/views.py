@@ -3,6 +3,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView, \
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes, authentication_classes
 
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
@@ -21,26 +22,26 @@ class BookPagination(LimitOffsetPagination):
     max_limit = 100
 
 
+@authentication_classes((TokenAuthentication, ))
+@permission_classes((IsAuthenticated, ))
 class BookList(ListAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
     queryset = Books.objects.all()
     serializer_class = BookSerializer
     pagination_class = BookPagination
 
 
+@authentication_classes((TokenAuthentication, ))
+@permission_classes((IsAuthenticated, ))
 class BookCreate(CreateAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
 
+@authentication_classes((TokenAuthentication, ))
+@permission_classes((IsAuthenticated, ))
 class BookRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
     queryset = Books.objects.all()
     lookup_field = 'id'
     serializer_class = BookSerializer
@@ -66,9 +67,7 @@ class BookRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
             })
         return response
 
-
 # class BookViewSet(ModelViewSet):
 #     queryset = Books.objects.all()
 #     serializer_class = BookSerializer
 #
-
